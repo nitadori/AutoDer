@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <cmath>
 
 template <typename T>
@@ -68,7 +69,7 @@ struct AD2{
 	}
 	AD2 rsqrt() const {
 #ifdef FAST_RSQRT
-		T t1 = T(1) / std::sqrt(d0);
+		T t1 = rsqrt(d0);
 		T t2 = t1 * t1;
 #else
 		T t2 = T(1) / d0;
@@ -77,8 +78,32 @@ struct AD2{
 		T t3 = t1 * t2;
 
 		T dd0 = t1;
-		T dd1 = -d1 * t3;
+		T dd1 = (T(-1)/T(2)) * (d1 * t3);
 
 		return {dd0, dd1};
+	}
+	AD2 rsqrtCubed() const {
+#ifdef FAST_RSQRT
+		T t1 = rsqrt(d0);
+		T t2 = t1 * t1;
+#else
+		T t2 = T(1) / d0;
+		T t1 = std::sqrt(t2);
+#endif
+		T t3 = t1 * t2;
+		T t5 = t2 * t3;
+
+		T dd0 = t3;
+		T dd1 = (T(-3)/T(2)) * (d1 * t5);
+
+		return {dd0, dd1};
+	}
+
+	int print(
+			FILE *fp = stdout,
+			const char *fmt = "%A, %A\n"
+			) const {
+		int ret = fprintf(fp, fmt, d0, d1);
+		return ret;
 	}
 };
