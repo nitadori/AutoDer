@@ -99,11 +99,6 @@ struct AD2{
 		return {dd0, dd1};
 	}
 
-	int print(
-			FILE *fp = stdout,
-			const char *fmt = "%A, %A\n"
-			) const {
-		int ret = fprintf(fp, fmt, d0, d1);
-		return ret;
-	}
+	// Please specialize
+	void print();
 };

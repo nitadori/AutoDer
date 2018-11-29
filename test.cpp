@@ -2,6 +2,11 @@
 #include <cstdlib>
 #include "ad2.hpp"
 
+template<>
+void AD2<double>::print(){
+	printf("%A %A\n", d0, d1);
+}
+
 int main(){
 	srand48(20181130);
 
