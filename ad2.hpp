@@ -100,5 +100,6 @@ struct AD2{
 	}
 
 	// Please specialize
-	void print();
+	void print() const;
+	AD2 set_rand();
 };
