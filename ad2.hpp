@@ -6,9 +6,11 @@ struct AD2{
 	T d0;
 	T d1;
 	
+#if 0
 	operator T() const {
 		return d0;
 	}
+#endif
 
 	//  Basic four operators
 	AD2 operator+(const AD2 &rhs) const {
@@ -23,12 +25,21 @@ struct AD2{
 
 		return {dd0, dd1};
 	}
+#if 0
 	AD2 operator*(const AD2 &rhs) const {
 		T dd0 = d0 * rhs.d0;
 		T dd1 = d0 * rhs.d1 + rhs.d0 * d1;
 
 		return {dd0, dd1};
 	}
+#else
+	auto operator*(const AD2 &rhs) const -> AD2<decltype(d0 * rhs.d0)> {
+		auto dd0 = d0 * rhs.d0;
+		auto dd1 = d0 * rhs.d1 + rhs.d0 * d1;
+
+		return {dd0, dd1};
+	}
+#endif
 	AD2 operator/(const AD2 &rhs) const {
 		T ginv  = T(1) / rhs.d0;
 		T ginv2 = ginv * ginv;

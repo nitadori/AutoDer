@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "ad2.hpp"
+#include "vec3.hpp"
 
 template<>
 void AD2<double>::print() const{
@@ -38,6 +39,28 @@ int main(){
 	puts("");
 	x.print();
 	(0.25 * x * 4.0).print();
+
+	puts("");
+
+	puts("Vec3 tests");
+
+	Vec3<AD> u, v;
+	u = {AD().set_rand(), AD().set_rand(), AD().set_rand()};
+	v = {AD().set_rand(), AD().set_rand(), AD().set_rand()};
+
+	(u.x*v.x + u.y*v.y + u.z*v.z).print();
+
+	(u * v).print();
+
+	AD2<Vec3<double>> uu = {
+		{u.x.d0, u.y.d0, u.z.d0}, 
+		{u.x.d1, u.y.d1, u.z.d1}}; 
+	AD2<Vec3<double>> vv = {
+		{v.x.d0, v.y.d0, v.z.d0}, 
+		{v.x.d1, v.y.d1, v.z.d1}}; 
+
+	(uu * vv).print();
+
 
 	return 0;
 }
