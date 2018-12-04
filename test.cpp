@@ -35,5 +35,9 @@ int main(){
 	(x/z).print();
 	(x * z.inv()).print();
 
+	puts("");
+	x.print();
+	(0.25 * x * 4.0).print();
+
 	return 0;
 }

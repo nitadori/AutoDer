@@ -39,6 +39,21 @@ struct AD2{
 		return {dd0, dd1};
 	}
 
+	// Scalar-AD product
+	friend AD2 operator*(const T &lhs, const AD2 &rhs){
+		T dd0 = lhs * rhs.d0;
+		T dd1 = lhs * rhs.d1;
+
+		return {dd0, dd1};
+	}
+	AD2 operator*(const T &rhs) const {
+		T dd0 = d0 * rhs;
+		T dd1 = d1 * rhs;
+
+		return {dd0, dd1};
+	}
+	
+
 	// Overwriting operators
 	const AD2 &operator+=(const AD2 &rhs) {
 		AD2 tmp = *this + rhs;
