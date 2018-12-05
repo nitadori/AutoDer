@@ -61,6 +61,9 @@ int main(){
 
 	(uu * vv).print();
 
+	puts("");
+	((0.25 * u) * (4.0 * v)).print();
+
 
 	return 0;
 }
