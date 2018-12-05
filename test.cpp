@@ -16,6 +16,15 @@ AD2<double> AD2<double>::set_rand(){
 	return *this;
 }
 
+// Scalar-AD product
+template <typename T>
+inline AD2<T> operator*(const typename T::BaseType &s, const AD2<T> &rhs){
+	auto dd0 = s * rhs.d0;
+	auto dd1 = s * rhs.d1;
+
+	return {dd0, dd1};
+}
+
 int main(){
 	srand48(20181130);
 
@@ -63,6 +72,7 @@ int main(){
 
 	puts("");
 	((0.25 * u) * (4.0 * v)).print();
+	((0.25 *uu) * (4.0 *vv)).print();
 
 
 	return 0;
