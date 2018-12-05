@@ -3,6 +3,8 @@
 
 template <typename T>
 struct AD2{
+	typedef T BaseType;
+
 	T d0;
 	T d1;
 	
@@ -33,9 +35,10 @@ struct AD2{
 		return {dd0, dd1};
 	}
 #else
-	auto operator*(const AD2 &rhs) const -> AD2<decltype(d0 * rhs.d0)> {
-		auto dd0 = d0 * rhs.d0;
-		auto dd1 = d0 * rhs.d1 + rhs.d0 * d1;
+	typedef decltype(d0 * d1) DotpType;
+	AD2<DotpType> operator*(const AD2 &rhs) const {
+		DotpType dd0 = d0 * rhs.d0;
+		DotpType dd1 = d0 * rhs.d1 + rhs.d0 * d1;
 
 		return {dd0, dd1};
 	}
