@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include "ad2.hpp"
 #include "vec3.hpp"
+#include "sfinae.hpp"
 
 template<>
 void AD2<double>::print() const{
@@ -14,15 +15,6 @@ AD2<double> AD2<double>::set_rand(){
 	d1 = sqrt(drand48() * drand48());
 
 	return *this;
-}
-
-// Scalar-AD product
-template <typename T>
-inline AD2<T> operator*(const typename T::BaseType &s, const AD2<T> &rhs){
-	auto dd0 = s * rhs.d0;
-	auto dd1 = s * rhs.d1;
-
-	return {dd0, dd1};
 }
 
 int main(){
