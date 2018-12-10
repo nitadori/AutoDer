@@ -6,7 +6,7 @@
 
 template<>
 void AD2<double>::print() const{
-	printf("%A %A\n", d0, d1);
+	printf("%e (%A) %e (%A)\n", d0, d0, d1, d1);
 }
 
 template<>

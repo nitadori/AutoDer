@@ -9,7 +9,7 @@ struct AD2{
 	T d0;
 	T d1;
 	
-#if 0
+#if 1
 	operator T() const {
 		return d0;
 	}
@@ -36,7 +36,8 @@ struct AD2{
 		return {dd0, dd1};
 	}
 #else
-	typedef decltype(d0 * d1) DotpType;
+	// typedef decltype(d0 * d1) DotpType;
+	using DotpType = decltype(d0 * d1);
 	AD2<DotpType> operator*(const AD2 &rhs) const {
 		DotpType dd0 = d0 * rhs.d0;
 		DotpType dd1 = d0 * rhs.d1 + rhs.d0 * d1;
