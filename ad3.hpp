@@ -79,7 +79,7 @@ struct AD3{
 	friend AD3<VEC<T>> operator*(const AD3<T> &s, const AD3<VEC<T>> &v){
 		auto dd0 = s.d0 * v.d0;
 		auto dd1 = s.d0 * v.d1 + s.d1 * v.d0;
-		auto dd2 = s.d0 * v.d2 + T(2)*(s.d1 * v.d1) + s.d0 * v.d2;
+		auto dd2 = s.d0 * v.d2 + T(2)*(s.d1 * v.d1) + s.d2 * v.d0;
 
 		return {dd0, dd1, dd2};
 	}
