@@ -97,6 +97,8 @@ int main(){
 	static Particle p[N];
 	static AD_Particle ap[N];
 
+	srand48(20181209);
+
 	for(int i=0; i<N; i++){
 		p[i].init();
 	}
@@ -122,7 +124,6 @@ int main(){
 		puts("");
 	}
 
-	srand48(20181209);
 
 	return 0;
 }

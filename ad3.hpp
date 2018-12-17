@@ -60,6 +60,52 @@ struct AD3{
 		return {dd0, dd1, dd2};
 	}
 
+	// Scalar-AD product
+	friend AD3 operator*(const T &lhs, const AD3 &rhs){
+		T dd0 = lhs * rhs.d0;
+		T dd1 = lhs * rhs.d1;
+		T dd2 = lhs * rhs.d2;
+
+		return {dd0, dd1, dd2};
+	}
+	AD3 operator*(const T &rhs) const {
+		T dd0 = d0 * rhs;
+		T dd1 = d1 * rhs;
+		T dd2 = d2 * rhs;
+
+		return {dd0, dd1, dd2};
+	}
+	template<template<typename> class VEC>
+	friend AD3<VEC<T>> operator*(const AD3<T> &s, const AD3<VEC<T>> &v){
+		auto dd0 = s.d0 * v.d0;
+		auto dd1 = s.d0 * v.d1 + s.d1 * v.d0;
+		auto dd2 = s.d0 * v.d2 + T(2)*(s.d1 * v.d1) + s.d0 * v.d2;
+
+		return {dd0, dd1, dd2};
+	}
+
+	// Overwriting operators
+	const AD3 &operator+=(const AD3 &rhs) {
+		AD3 tmp = *this + rhs;
+		*this = tmp;
+		return *this;
+	}
+	const AD3 &operator-=(const AD3 &rhs) {
+		AD3 tmp = *this - rhs;
+		*this = tmp;
+		return *this;
+	}
+	const AD3 &operator*=(const AD3 &rhs) {
+		AD3 tmp = *this * rhs;
+		*this = tmp;
+		return *this;
+	}
+	const AD3 &operator/=(const AD3 &rhs) {
+		AD3 tmp = *this / rhs;
+		*this = tmp;
+		return *this;
+	}
+
 	// Primitive functions
 	AD3<DotpType> sqr() const {
 		DotpType dd0 = d0 * d0;
