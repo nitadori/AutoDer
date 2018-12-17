@@ -36,6 +36,11 @@ int main(){
 	puts("");
 	x.inv().print();
 	(x.rsqrt() * x.rsqrt()).print();
+	puts("");
+	auto t = x.rsqrt();
+	auto t3 = t * t * t;
+	t3.print();
+	x.rsqrtCubed().print();
 
 	return 0;
 }
