@@ -78,7 +78,7 @@ void calc_acc(const int N, P * __restrict__ p){
 		for(int j=0; j<N; j++){
 			if(j == i) continue;
 			const auto dr = p[j].pos - p[i].pos;
-#if 0
+#if 1
 			auto r2 = dr * dr;
 #else
 			auto r2 = dr.sqr();
