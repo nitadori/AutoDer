@@ -9,7 +9,7 @@ struct AD2{
 	T d0;
 	T d1;
 	
-#if 1
+#if 0
 	operator T() const {
 		return d0;
 	}
@@ -68,27 +68,45 @@ struct AD2{
 
 		return {dd0, dd1};
 	}
+
+	template<template<typename> class VEC>
+	friend AD2<VEC<T>> operator*(const AD2<T> &s, const AD2<VEC<T>> &v){
+		auto dd0 = s.d0 * v.d0;
+		auto dd1 = s.d0 * v.d1 + s.d1 * v.d0;
+
+		return {dd0, dd1};
+	}
 	
 
 	// Overwriting operators
 	const AD2 &operator+=(const AD2 &rhs) {
 		AD2 tmp = *this + rhs;
 		*this = tmp;
+		return *this;
 	}
 	const AD2 &operator-=(const AD2 &rhs) {
 		AD2 tmp = *this - rhs;
 		*this = tmp;
+		return *this;
 	}
 	const AD2 &operator*=(const AD2 &rhs) {
 		AD2 tmp = *this * rhs;
 		*this = tmp;
+		return *this;
 	}
 	const AD2 &operator/=(const AD2 &rhs) {
 		AD2 tmp = *this / rhs;
 		*this = tmp;
+		return *this;
 	}
 
 	// Primitive functions
+	AD2<DotpType> sqr() const {
+		DotpType dd0 = d0 * d0;
+		DotpType dd1 = 2 * (d0 * d1);
+
+		return {dd0, dd1};
+	}
 	AD2 inv() const {
 		T finv  = T(1) / d0;
 		T finv2 = finv * finv;
