@@ -54,9 +54,40 @@ struct AD3{
 		
 		T dd0 = x.d0 * yinv;
 		T dd1 = tt1 * yinv2;
-		T dd2 = tt2 * yinv2 - 2*y.d1*tt1 * yinv3;
+		// T dd2 = tt2 * yinv2 - 2*y.d1*tt1 * yinv3;
+		T dd2 = (y.d0 * tt2  - 2*y.d1 * tt1) * yinv3;
 
 		return {dd0, dd1, dd2};
+	}
+
+	// Primitive functions
+	AD3<DotpType> sqr() const {
+		DotpType dd0 = d0 * d0;
+		DotpType dd1 = 2 * (d0 * d1);
+		DotpType dd2 = 2 * (d0 * d2 + d1 * d1);
+
+		return {dd0, dd1};
+	}
+	AD3 inv() const {
+		T xinv = T(1) / d0;
+		T y0 = xinv;
+		T y1 = -(d1 * y0) * xinv;
+		T y2 = (-d2*y0 - T(2)*d1*y1) * xinv;
+
+		return {y0, y1, y2};
+	}
+	AD3 rsqrt() const {
+#ifdef FAST_RSQRT
+		T y0   = rsqrt(d0);
+		T xinv = t1 * t1;
+#else
+		T xinv = T(1) / d0;
+		T y0   = std::sqrt(xinv);
+#endif
+		T y1 = (T(-1)/2) * xinv * d1*y0;
+		T y2 = (T(-1)/2) * xinv * (d2 * y0 + T(3)*d1*y1);
+
+		return {y0, y1, y2};
 	}
 
 	// Please specialize
