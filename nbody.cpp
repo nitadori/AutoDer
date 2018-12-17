@@ -83,9 +83,13 @@ void calc_acc(const int N, P * __restrict__ p){
 #else
 			auto r2 = dr.sqr();
 #endif
+#if 0
 			auto ri1 = r2.rsqrt();
 			auto ri2 = ri1 * ri1;
 			auto mri3 = p[j].mass * (ri2 * ri1);
+#else
+			auto mri3 = p[j].mass * r2.rsqrtCubed();;
+#endif
 			acc += mri3 * (dr);
 		}
 		p[i].acc = acc;
