@@ -112,7 +112,7 @@ struct AD3{
 		DotpType dd1 = 2 * (d0 * d1);
 		DotpType dd2 = 2 * (d0 * d2 + d1 * d1);
 
-		return {dd0, dd1};
+		return {dd0, dd1, dd2};
 	}
 	AD3 inv() const {
 		T xinv = T(1) / d0;
