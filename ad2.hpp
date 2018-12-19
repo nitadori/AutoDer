@@ -36,6 +36,13 @@ struct AD2{
 		return {dd0, dd1};
 	}
 #else
+	// can be  either of
+	//   scalar * scalar -> scalar
+	//   scalar * vector -> vector
+	//   vector * vector -> scalar
+	// where
+	//   scalar = AD2<double>
+	//   vector = AD2<Vec3<double>>
 	template <typename RHS>
 	auto operator*(const RHS &rhs) const -> AD2<decltype(d0 * rhs.d0)> {
 		auto dd0 = d0 * rhs.d0;

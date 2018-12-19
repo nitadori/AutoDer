@@ -32,15 +32,22 @@ struct AD3{
 		return {dd0, dd1, dd2};
 	}
 
-	using DotpType = decltype(d0 * d1);
-	AD3<DotpType> operator*(const AD3 &rhs) const {
-		DotpType dd0 = d0 * rhs.d0;
-		DotpType dd1 = d0 * rhs.d1 + rhs.d0 * d1;
-		DotpType dd2 = d0 * rhs.d2 + 2 * (d1 * rhs.d1) + d2 * rhs.d0;
+	// can be  either of
+	//   scalar * scalar -> scalar
+	//   scalar * vector -> vector
+	//   vector * vector -> scalar
+	// where
+	//   scalar = AD3<double>
+	//   vector = AD3<Vec3<double>>
+	template <typename RHS>
+	auto operator*(const RHS &rhs) const -> AD3<decltype(d0 * rhs.d0)> {
+		auto dd0 = d0 * rhs.d0;
+		auto dd1 = d0 * rhs.d1 + d1 * rhs.d0;
+		auto dd2 = d0 * rhs.d2 + 2 * (d1 * rhs.d1) + d2 * rhs.d0;
 
 		return {dd0, dd1, dd2};
-
 	}
+
 	AD3 operator/(const AD3 &rhs) const {
 		const AD3 &x = *this;
 		const AD3 &y = rhs;
@@ -75,14 +82,6 @@ struct AD3{
 
 		return {dd0, dd1, dd2};
 	}
-	template<template<typename> class VEC>
-	friend AD3<VEC<T>> operator*(const AD3<T> &s, const AD3<VEC<T>> &v){
-		auto dd0 = s.d0 * v.d0;
-		auto dd1 = s.d0 * v.d1 + s.d1 * v.d0;
-		auto dd2 = s.d0 * v.d2 + T(2)*(s.d1 * v.d1) + s.d2 * v.d0;
-
-		return {dd0, dd1, dd2};
-	}
 
 	// Overwriting operators
 	const AD3 &operator+=(const AD3 &rhs) {
@@ -107,10 +106,10 @@ struct AD3{
 	}
 
 	// Primitive functions
-	AD3<DotpType> sqr() const {
-		DotpType dd0 = d0 * d0;
-		DotpType dd1 = 2 * (d0 * d1);
-		DotpType dd2 = 2 * (d0 * d2 + d1 * d1);
+	auto sqr() const -> AD3<decltype(d0 * d0)> {
+		auto dd0 = d0 * d0;
+		auto dd1 = 2 * (d0 * d1);
+		auto dd2 = 2 * (d0 * d2 + d1 * d1);
 
 		return {dd0, dd1, dd2};
 	}
