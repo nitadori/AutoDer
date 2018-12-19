@@ -51,6 +51,7 @@ struct AD4{
 		const AD4 &x = *this;
 		const AD4 &y = rhs;
 
+#if 0
 		T yinv  = T(1) / y.d0;
 		T yinv2 = yinv  * yinv;
 		T yinv3 = yinv2 * yinv;
@@ -71,6 +72,17 @@ struct AD4{
 		dd3 *= yinv4;
 
 		return {dd0, dd1, dd2, dd3};
+#else
+		AD4 z;
+		T yinv  = T(1) / y.d0;
+		z.d0 = x.d0 * yinv;
+		z.d1 = (x.d1 - y.d1 * z.d0) * yinv;
+		z.d2 = (x.d2 - T(2) * y.d1 * z.d1 - y.d2 * z.d0) * yinv;
+		z.d3 = (x.d3 - T(3) * (y.d1 * z.d2 + y.d2 * z.d1) - y.d3 * z.d0) * yinv;
+
+		return z;
+#endif
+
 	}
 
 	// Please specialize
