@@ -36,15 +36,15 @@ struct AD2{
 		return {dd0, dd1};
 	}
 #else
-	// typedef decltype(d0 * d1) DotpType;
-	using DotpType = decltype(d0 * d1);
-	AD2<DotpType> operator*(const AD2 &rhs) const {
-		DotpType dd0 = d0 * rhs.d0;
-		DotpType dd1 = d0 * rhs.d1 + rhs.d0 * d1;
+	template <typename RHS>
+	auto operator*(const RHS &rhs) const -> AD2<decltype(d0 * rhs.d0)> {
+		auto dd0 = d0 * rhs.d0;
+		auto dd1 = d0 * rhs.d1 + d1 * rhs.d0;
 
 		return {dd0, dd1};
 	}
 #endif
+
 	AD2 operator/(const AD2 &rhs) const {
 		T ginv  = T(1) / rhs.d0;
 		T ginv2 = ginv * ginv;
@@ -69,15 +69,6 @@ struct AD2{
 		return {dd0, dd1};
 	}
 
-	template<template<typename> class VEC>
-	friend AD2<VEC<T>> operator*(const AD2<T> &s, const AD2<VEC<T>> &v){
-		auto dd0 = s.d0 * v.d0;
-		auto dd1 = s.d0 * v.d1 + s.d1 * v.d0;
-
-		return {dd0, dd1};
-	}
-	
-
 	// Overwriting operators
 	const AD2 &operator+=(const AD2 &rhs) {
 		AD2 tmp = *this + rhs;
@@ -101,9 +92,9 @@ struct AD2{
 	}
 
 	// Primitive functions
-	AD2<DotpType> sqr() const {
-		DotpType dd0 = d0 * d0;
-		DotpType dd1 = 2 * (d0 * d1);
+	auto sqr() const -> AD2<decltype(d0 * d0)> {
+		auto dd0 = d0 * d0;
+		auto dd1 = 2 * (d0 * d1);
 
 		return {dd0, dd1};
 	}
