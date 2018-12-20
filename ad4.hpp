@@ -142,6 +142,21 @@ struct AD4{
 
 		return {y0, y1, y2, y3};
 	}
+	AD4 rsqrt() const {
+#ifdef FAST_RSQRT
+		T y0   = rsqrt(d0);
+		T xinv = t1 * t1;
+#else
+		T xinv = T(1) / d0;
+		T y0   = std::sqrt(xinv);
+#endif
+		T cc = T(-1)/T(2) * xinv;
+		T y1 = cc *  d1*y0;
+		T y2 = cc * (d2*y0 + T(3)*d1*y1);
+		T y3 = cc * (d3*y0 + T(4)*d2*y1 + T(5)*d1*y2);
+
+		return {y0, y1, y2, y3};
+	}
 
 
 	// Please specialize the followings

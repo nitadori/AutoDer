@@ -42,6 +42,11 @@ int main(){
 	x.sqr().print();
 	(x/y).print();
 	(x*y.inv()).print();
+
+	puts("");
+
+	x.inv().print();
+	(x.rsqrt() * x.rsqrt()).print();
 	
 	return 0;
 };
