@@ -157,6 +157,23 @@ struct AD4{
 
 		return {y0, y1, y2, y3};
 	}
+	AD4 rsqrtCubed() const {
+#ifdef FAST_RSQRT
+		T y0   = rsqrt(d0);
+		T xinv = t1 * t1;
+#else
+		T xinv = T(1) / d0;
+		T y0   = std::sqrt(xinv);
+#endif
+		y0 *= xinv;
+
+		T cc = T(-3)/T(2) * y0;
+		T y1 = (cc *  d1) * xinv;
+		T y2 = (cc * d2 - (T(5)/T(2))*d1*y1) * xinv;
+		T y3 = (cc * d3 - (T(4)     )*d2*y1 - (T(7)/T(2))*d1*y2) * xinv;
+
+		return {y0, y1, y2, y3};
+	}
 
 
 	// Please specialize the followings

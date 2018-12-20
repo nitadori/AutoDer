@@ -134,6 +134,7 @@ struct AD3{
 
 		return {y0, y1, y2};
 	}
+#if 0
 	AD3 rsqrtCubed() const {
 #ifdef FAST_RSQRT
 		T t1 = rsqrt(d0);
@@ -151,6 +152,24 @@ struct AD3{
 
 		return {y0, y1, y2};
 	}
+#else
+	AD3 rsqrtCubed() const {
+#ifdef FAST_RSQRT
+		T y0   = rsqrt(d0);
+		T xinv = t1 * t1;
+#else
+		T xinv = T(1) / d0;
+		T y0   = std::sqrt(xinv);
+#endif
+		y0 *= xinv;
+
+		T cc = T(-3)/T(2) * y0;
+		T y1 = cc *  d1* xinv; 
+		T y2 = (cc * d2 - (T(5)/T(2))*d1*y1) * xinv;
+
+		return {y0, y1, y2};
+	}
+#endif
 
 	// Please specialize
 	void print() const;
