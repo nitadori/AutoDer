@@ -165,7 +165,7 @@ struct AD3{
 
 		T cc = T(-3)/T(2) * y0;
 		T y1 = cc *  d1* xinv; 
-		T y2 = (cc * d2 - (T(5)/T(2))*d1*y1) * xinv;
+		T y2 = (cc * d2 + (T(-5)/T(2))*d1*y1) * xinv;
 
 		return {y0, y1, y2};
 	}

@@ -169,8 +169,8 @@ struct AD4{
 
 		T cc = T(-3)/T(2) * y0;
 		T y1 = (cc *  d1) * xinv;
-		T y2 = (cc * d2 - (T(5)/T(2))*d1*y1) * xinv;
-		T y3 = (cc * d3 - (T(4)     )*d2*y1 - (T(7)/T(2))*d1*y2) * xinv;
+		T y2 = (cc * d2 + (T(-5)/T(2))*d1*y1) * xinv;
+		T y3 = (cc * d3 + (T(-4)     )*d2*y1 + (T(-7)/T(2))*d1*y2) * xinv;
 
 		return {y0, y1, y2, y3};
 	}
