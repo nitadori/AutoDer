@@ -71,7 +71,7 @@ void calc_acc(const int N, P * __restrict__ p){
 #else
 			auto mri3 = p[j].mass * r2.rsqrtCubed();
 #endif
-			acc += mri3 * (dr);
+			acc += mri3 * dr;
 		}
 		p[i].acc = acc;
 	}
@@ -168,7 +168,6 @@ int main(){
 				ap[i].acc.d3.x, ap[i].acc.d3.y, ap[i].acc.d3.z);
 		puts("");
 	}
-	p[0].pos = 1.0 * p[0].pos;
 
 	return 0;
 }

@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include "ad4.hpp"
+#include "vec3.hpp"
+#include "sfinae.hpp"
 
 static double drand53(){
 	return sqrt(drand48() * drand48());
@@ -53,6 +55,9 @@ int main(){
 	auto t3 = t * t * t;
 	t3.print();
 	x.rsqrtCubed().print();
+
+	AD4<Vec3<double>> v = {{0,}, };
+	v = 1.0 * v;
 
 	return 0;
 };
