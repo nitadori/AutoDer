@@ -15,9 +15,9 @@ void AD3<double>::print() const{
 
 template<>
 AD3<double> AD3<double>::set_rand(){
-	d0 = sqrt(drand53());
-	d1 = sqrt(drand53());
-	d2 = sqrt(drand53());
+	d0 = drand53();
+	d1 = drand53();
+	d2 = drand53();
 
 	return *this;
 }
@@ -38,6 +38,7 @@ struct Particle{
 		vel  = {drand53(), drand53(), drand53()};
 		acc  = {0,};
 		jrk  = {0,};
+		snp  = {0,};
 	}
 };
 
@@ -65,7 +66,7 @@ void calc_acc(const int N, P * __restrict__ p){
 			auto ri2 = ri1 * ri1;
 			auto mri3 = p[j].mass * (ri2 * ri1);
 #else
-			auto mri3 = p[j].mass * r2.rsqrtCubed();;
+			auto mri3 = p[j].mass * r2.rsqrtCubed();
 #endif
 			acc += mri3 * (dr);
 		}
