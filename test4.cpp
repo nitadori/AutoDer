@@ -31,9 +31,17 @@ int main(){
 	x.print();
 	y.print();
 	(x/y).print();
+
 	puts("");
+
 	x.print();
 	(y*(x/y)).print();
+
+	puts("");
+	(x*x).print();
+	x.sqr().print();
+	(x/y).print();
+	(x*y.inv()).print();
 	
 	return 0;
 };

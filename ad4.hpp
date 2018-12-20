@@ -82,10 +82,69 @@ struct AD4{
 
 		return z;
 #endif
-
 	}
 
-	// Please specialize
+	// Scalar-AD product
+	friend AD4 operator*(const T &lhs, const AD4 &rhs){
+		T dd0 = lhs * rhs.d0;
+		T dd1 = lhs * rhs.d1;
+		T dd2 = lhs * rhs.d2;
+		T dd3 = lhs * rhs.d3;
+
+		return {dd0, dd1, dd2, dd3};
+	}
+	AD4 operator*(const T &rhs) const {
+		T dd0 = d0 * rhs;
+		T dd1 = d1 * rhs;
+		T dd2 = d2 * rhs;
+		T dd3 = d3 * rhs;
+
+		return {dd0, dd1, dd2, dd3};
+	}
+
+	// Overwriting operators
+	const AD4 &operator+=(const AD4 &rhs) {
+		AD4 tmp = *this + rhs;
+		*this = tmp;
+		return *this;
+	}
+	const AD4 &operator-=(const AD4 &rhs) {
+		AD4 tmp = *this - rhs;
+		*this = tmp;
+		return *this;
+	}
+	const AD4 &operator*=(const AD4 &rhs) {
+		AD4 tmp = *this * rhs;
+		*this = tmp;
+		return *this;
+	}
+	const AD4 &operator/=(const AD4 &rhs) {
+		AD4 tmp = *this / rhs;
+		*this = tmp;
+		return *this;
+	}
+
+	// Primitive functions
+	auto sqr() const -> AD4<decltype(d0 * d0)> {
+		auto dd0 = d0 * d0;
+		auto dd1 = 2 * (d0 * d1);
+		auto dd2 = 2 * (d0 * d2 + d1 * d1);
+		auto dd3 = 2 * (d0 * d3 + 3 * (d1 * d2));
+
+		return {dd0, dd1, dd2, dd3};
+	}
+	AD4 inv() const {
+		T xinv = T(1) / d0;
+		T y0 = xinv;
+		T y1 = -(d1 * y0) * xinv;
+		T y2 = (-d2*y0 - T(2)*d1*y1) * xinv;
+		T y3 = (-d3*y0 - 3*(d2*y1 + d1*y2)) * xinv;
+
+		return {y0, y1, y2, y3};
+	}
+
+
+	// Please specialize the followings
 	void print() const;
 	AD4 set_rand();
 };
