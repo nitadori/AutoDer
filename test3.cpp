@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "ad3.hpp"
+#include "vec3.hpp"
 
 static double drand53(){
 	return sqrt(drand48() * drand48());
@@ -41,6 +42,36 @@ int main(){
 	auto t3 = t * t * t;
 	t3.print();
 	x.rsqrtCubed().print();
+
+	puts("");
+
+	puts("Vec3 tests");
+
+	Vec3<AD> u, v;
+	u = {AD().set_rand(), AD().set_rand(), AD().set_rand()};
+	v = {AD().set_rand(), AD().set_rand(), AD().set_rand()};
+
+	(u.x*v.x + u.y*v.y + u.z*v.z).print();
+
+	(u * v).print();
+
+	AD3<Vec3<double>> uu = {
+		{u.x.d0, u.y.d0, u.z.d0}, 
+		{u.x.d1, u.y.d1, u.z.d1}, 
+		{u.x.d2, u.y.d2, u.z.d2},
+	}; 
+	AD3<Vec3<double>> vv = {
+		{v.x.d0, v.y.d0, v.z.d0}, 
+		{v.x.d1, v.y.d1, v.z.d1},
+		{v.x.d2, v.y.d2, v.z.d2},
+	}; 
+
+	(uu * vv).print();
+
+	puts("");
+	((0.25 * u) * (4.0 * v)).print();
+	((0.25 *uu) * (4.0 *vv)).print();
+
 
 	return 0;
 }

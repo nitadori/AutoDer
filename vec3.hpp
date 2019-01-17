@@ -40,3 +40,9 @@ struct Vec3{
     }
 
 };
+
+// Scalar-Vector product, e.g. (double * Vec3<AD2<double>>)
+template <typename T>
+inline Vec3<T> operator*(const typename T::BaseType &s, const Vec3<T> &v){
+        return {s*v.x, s*v.y, s*v.z};
+}

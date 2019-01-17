@@ -176,3 +176,14 @@ struct AD3{
 	AD3 set_rand();
 
 };
+
+// Scalar-AD product, e.g. (double * AD3<Vec3<double>>)
+// SFINAE for T::BaseType
+template <typename T>
+inline AD3<T> operator*(const typename T::BaseType &s, const AD3<T> &rhs){
+	auto dd0 = s * rhs.d0;
+	auto dd1 = s * rhs.d1;
+	auto dd2 = s * rhs.d2;
+
+	return {dd0, dd1, dd2};
+}

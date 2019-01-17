@@ -180,3 +180,15 @@ struct AD4{
 	void print() const;
 	AD4 set_rand();
 };
+
+// Scalar-AD product, e.g. (double * AD3<Vec3<double>>)
+// SFINAE for T::BaseType
+template <typename T>
+inline AD4<T> operator*(const typename T::BaseType &s, const AD4<T> &rhs){
+	auto dd0 = s * rhs.d0;
+	auto dd1 = s * rhs.d1;
+	auto dd2 = s * rhs.d2;
+	auto dd3 = s * rhs.d3;
+
+	return {dd0, dd1, dd2, dd3};
+}

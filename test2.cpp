@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "ad2.hpp"
 #include "vec3.hpp"
-#include "sfinae.hpp"
+// #include "sfinae.hpp"
 
 template<>
 void AD2<double>::print() const{

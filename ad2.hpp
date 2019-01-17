@@ -150,3 +150,13 @@ struct AD2{
 	void print() const;
 	AD2 set_rand();
 };
+
+// Scalar-AD product, e.g. (double * AD2<Vec3<double>>)
+// SFINAE for T::BaseType
+template <typename T>
+inline AD2<T> operator*(const typename T::BaseType &s, const AD2<T> &rhs){
+	auto dd0 = s * rhs.d0;
+	auto dd1 = s * rhs.d1;
+
+	return {dd0, dd1};
+}
